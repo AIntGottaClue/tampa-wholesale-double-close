@@ -1,0 +1,23 @@
+---
+import { brand, cities } from '../data/cities';
+interface Props { base?: string }
+const { base = '' } = Astro.props;
+const countyGroups = cities.reduce<Record<string, typeof cities>>((acc, c) => { (acc[c.county] ||= []).push(c); return acc; }, {});
+const countyEntries = Object.entries(countyGroups);
+const perCol = Math.ceil(countyEntries.length / 4);
+const countyCols = Array.from({ length: 4 }, (_, i) => countyEntries.slice(i * perCol, (i + 1) * perCol));
+---
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header" id="top"><div class="container site-header__inner">
+ <a class="site-header__logo brand" href="/" aria-label={`${brand} home`}>
+  <svg class="brand__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="#2ee06e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5V20h13v-9.5" stroke="#ff8a2a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" stroke="#2ee06e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span class="brand__name">{brand}</span></a>
+ <button class="site-header__toggle" type="button" aria-label="Toggle menu" aria-controls="site-nav" aria-expanded="false"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+ <nav class="site-nav" id="site-nav" aria-label="Main"><ul class="site-nav__list">
+  <li><a href={`${base}#how-it-works`}>How It Works</a></li><li><a href={`${base}#why-us`}>Why Us</a></li><li><a href={`${base}#funding-fees`}>Funding Fees</a></li><li><a href={`${base}#faq`}>FAQ</a></li>
+  <li class="site-nav__dropdown"><button class="site-nav__dropdown-trigger" type="button" aria-expanded="false" aria-controls="service-area-menu">Service Areas <span aria-hidden="true">⌄</span></button><div class="site-nav__dropdown-menu site-nav__dropdown-menu--mega" id="service-area-menu"><div class="site-nav__counties">{countyCols.map(col => <div class="site-nav__county-col">{col.map(([county, list]) => <div class="site-nav__county"><p class="site-nav__county-name">{county}</p>{list.map(c => <a href={`/${c.slug}/`}>{c.name}</a>)}</div>)}</div>)}</div></div></li>
+ </ul><a class="btn btn--accent site-nav__cta" href={`${base}#deal-form`}>Submit Your Deal <span aria-hidden="true">↗</span></a></nav>
+</div></header>
+<script is:inline>
+(function(){var toggle=document.querySelector('.site-header__toggle'),nav=document.getElementById('site-nav');toggle.addEventListener('click',function(){var open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));nav.classList.toggle('is-open',!open);if(open){dd.classList.remove('is-open');dt.setAttribute('aria-expanded','false')}});nav.addEventListener('click',function(e){if(e.target.closest('a')){toggle.setAttribute('aria-expanded','false');nav.classList.remove('is-open')}});var dd=document.querySelector('.site-nav__dropdown'),dt=dd.querySelector('button');dt.addEventListener('click',function(){var open=dt.getAttribute('aria-expanded')==='true';dt.setAttribute('aria-expanded',String(!open));dd.classList.toggle('is-open',!open)});document.addEventListener('click',function(e){if(!dd.contains(e.target)){dd.classList.remove('is-open');dt.setAttribute('aria-expanded','false')}})})();
+</script>
