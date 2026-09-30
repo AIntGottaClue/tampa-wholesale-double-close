@@ -1,0 +1,41 @@
+---
+import { trustBar, cities } from '../data/cities';
+import type { Step, Faq, Scenario } from '../data/cities';
+import { getFeeTerms, renderFees, feeSchedule } from '../data/feeTerms';
+import DealForm from './DealForm.astro';
+import FaqAccordion from './FaqAccordion.astro';
+interface Props { h1Bottom:string;hero:string;localNoteTitle:string;localNote:string;whyHeading:string;why:string[];steps:Step[];faqs:Faq[];formName:string;cityName:string;stateAbbr:string;showCityGrid?:boolean;summaryFees?:boolean;summarySteps?:boolean;scenario?:Scenario; }
+const {h1Bottom,localNoteTitle,whyHeading,formName,cityName,stateAbbr,showCityGrid=false,summaryFees=false,summarySteps=false}=Astro.props;
+const feeTerms = await getFeeTerms();
+const r = (s:string)=>renderFees(s,feeTerms);
+const fees = feeSchedule(feeTerms);
+const hero = r(Astro.props.hero);
+const localNote = r(Astro.props.localNote);
+const why = Astro.props.why.map(r);
+const steps = Astro.props.steps.map((s)=>({title:r(s.title),text:r(s.text)}));
+const faqs = Astro.props.faqs.map((f)=>({q:r(f.q),a:r(f.a)}));
+const scenario = Astro.props.scenario ? {title:r(Astro.props.scenario.title),intro:r(Astro.props.scenario.intro),items:Astro.props.scenario.items.map(r),outro:r(Astro.props.scenario.outro)} : undefined;
+const trustBarRendered = trustBar.map(r);
+const locationValue = showCityGrid ? "Homepage" : (cityName.includes(",") ? cityName : `${cityName}, ${stateAbbr}`);
+const nearbyCities = showCityGrid ? [] : (cities.find(c=>c.name===cityName)?.nearby ?? []).map(slug=>cities.find(c=>c.slug===slug)).filter(Boolean);
+const placeLabel = (c: (typeof cities)[number]) => c.name.includes(",") ? c.name : `${c.name}, ${c.state}`;
+---
+<section class="hero" aria-labelledby="hero-title"><div class="hero__graphic" aria-hidden="true"><span class="hero__stripe hero__stripe--1"></span><span class="hero__stripe hero__stripe--2"></span><span class="hero__stripe hero__stripe--3"></span></div><div class="container hero__inner"><div class="hero__content"><h1 class="hero__title" id="hero-title"><span class="hero__line">Wholesale Double Close Funding</span><span class="hero__line hero__line--accent">{h1Bottom}</span></h1><p class="hero__subtitle">{hero}</p></div><DealForm formName={formName} cityName={cityName} locationValue={locationValue} /></div></section>
+<section class="trust-bar" aria-label="Funding highlights"><div class="container trust-bar__inner">{trustBarRendered.map(t=><div class="trust-bar__item"><span class="trust-bar__icon" aria-hidden="true">✓</span>{t}</div>)}</div></section>
+{summaryFees ? (
+<section class="section" id="funding-fees"><div class="container"><h2 class="section__title">Published funding fees</h2><p class="section__intro">Fees start at {feeTerms.tier1Rate} on funding up to {feeTerms.tier1Cap} with a {feeTerms.tier1Minimum} minimum, step to {feeTerms.tier2Rate} from {feeTerms.tier1Cap} to {feeTerms.tier2Cap}, and {feeTerms.tier3Rate} from {feeTerms.tier2Cap} to {feeTerms.fundingMax}. Additional days, a second closing company and special paperwork carry the extra fees listed in the schedule. The full schedule with worked examples is on the <a href="/transactional-funding-fees/">transactional funding fees</a> page.</p></div></section>
+) : (
+<section class="section" id="funding-fees"><div class="container"><h2 class="section__title">Published funding fees</h2><p class="section__intro">Fees are flat and published so you can underwrite the funding cost into your offer before you tie up the property. The math behind each line is on the <a href="/transactional-funding-fees/">transactional funding fees</a> page.</p><div class="funding-fees__layout"><div class="fee-table-wrap"><table class="fee-table"><caption class="sr-only">Double-close funding fee schedule</caption><thead><tr><th scope="col">Funding Amount</th><th scope="col">Fee or Detail</th></tr></thead><tbody>{fees.map(f=><tr><th scope="row">{f.label}</th><td>{f.detail}</td></tr>)}</tbody></table></div></div></div></section>
+)}
+<section class="local-note" aria-labelledby="local-note-title"><div class="container local-note__inner"><div class="local-note__marker" aria-hidden="true">{stateAbbr}</div><div class="local-note__body"><h2 class="local-note__title" id="local-note-title">{localNoteTitle}</h2><p>{localNote}</p></div></div></section>
+<section class="why-us section" id="why-us"><div class="container"><h2 class="section__title">{whyHeading}</h2><p class="why-us__intro">{why[0]}</p><div class="why-us__grid">{why.slice(1).map((text,i)=><article class="feature-card"><div class="feature-card__icon" aria-hidden="true">{String(i+1).padStart(2,'0')}</div><p class="feature-card__text">{text}</p></article>)}</div></div></section>
+{summarySteps ? (
+<section class="section section--dark" id="how-it-works"><div class="container"><h2 class="section__title">Three steps from contract to close</h2><p class="section__intro section__intro--dark">Submit your deal so the purchase and resale can be reviewed together. If funding is approved, the closing professional coordinates the actual sequence under the reviewed terms. The full sequence and the paperwork behind it are covered in <a href="/how-double-closing-works-in-florida/">how double closing works in Florida</a>.</p></div></section>
+) : (
+<section class="section section--dark" id="how-it-works"><div class="container"><h2 class="section__title">Three steps from contract to close</h2><p class="section__intro section__intro--dark">Both transactions typically run through the same title company or closing office. Read <a href="/how-double-closing-works-in-florida/">how double closing works in Florida</a>, or see the <a href="/double-close-vs-assignment/">double close vs assignment</a> comparison.</p><ol class="steps">{steps.map((s,i)=><li class="step"><span class="step__num">{i+1}</span><h3 class="step__title">{s.title}</h3><p class="step__text">{s.text}</p></li>)}</ol></div></section>
+)}
+{scenario && <section class="section scenario" id="local-checklist"><div class="container"><h2 class="section__title">{scenario.title}</h2><p class="section__intro">{scenario.intro}</p><ol class="scenario__list">{scenario.items.map(item=><li>{item}</li>)}</ol><p class="scenario__outro">{scenario.outro}</p></div></section>}
+<section class="section section--tint" id="faq"><div class="container faq__inner"><h2 class="section__title">Questions wholesalers ask</h2><FaqAccordion items={faqs} /></div></section>
+{showCityGrid&&<section class="section" id="service-areas"><div class="container"><h2 class="section__title">Service Areas Across Tampa Bay</h2><p class="section__intro">Our service areas span Hillsborough, Pinellas, Pasco and Hernando counties. Choose a city for local file considerations, then submit the actual property details for review.</p><div class="city-grid">{cities.map(c=><a class="city-card" href={`/${c.slug}/`}><h3>{c.name}</h3><p class="city-card__county">{c.county}</p><p>{c.blurb}</p></a>)}</div></div></section>}
+{nearbyCities.length>0&&<section class="nearby" aria-label="Nearby service areas"><div class="container nearby__inner"><h2 class="nearby__title">Nearby service areas</h2><ul class="nearby__list">{nearbyCities.map(c=><li><a href={`/${c.slug}/`}>{placeLabel(c)}</a></li>)}</ul></div></section>}
+<section class="final-cta"><div class="final-cta__graphic" aria-hidden="true"></div><div class="container final-cta__inner"><h2 class="final-cta__title">Ready to fund your {cityName} double closing?</h2><p class="final-cta__text">Submit the deal and we will review the numbers. Funding availability and timing depend on the reviewed file and closing arrangements.</p><a class="btn btn--accent btn--lg" href="#deal-form">Submit Your Deal <span aria-hidden="true">→</span></a></div></section>
