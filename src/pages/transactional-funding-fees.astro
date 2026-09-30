@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import { brand, domain } from '../data/cities';
+import { getFeeTerms, renderFees, feeSchedule, feeAmount } from '../data/feeTerms';
+
+const t = await getFeeTerms();
+const r = (s: string) => renderFees(s, t);
+const fees = feeSchedule(t);
+const pageDescription = r("The full transactional funding fee schedule with worked examples: percentage tiers, the {{tier1Minimum}} minimum, extra days, second closing companies and special paperwork.");
+
+const faqs = [
+  { q: "When is the funding fee paid?", a: "The fee typically comes out of the resale proceeds at closing, along with the repayment of the funded amount. You do not pay it out of pocket before the deal closes. Morby Method structures are the exception: those fees are paid upfront by Zelle or wire, as the schedule lists." },
+  { q: "Is there a minimum fee?", a: "Yes. On funding up to {{tier1Cap}} the fee is {{tier1Rate}} with a {{tier1Minimum}} minimum, so smaller deals pay the {{tier1Minimum}} minimum when {{tier1Rate}} would be less." },
+  { q: "What happens if the closing is delayed?", a: "Transactional funding is priced for a same-day hold. If the resale side moves and the funds stay out longer, the additional day fee of {{extraDayRate}} per day applies for each extra day, as listed in the schedule." },
+  { q: "Do the fees change by city, county or jurisdiction?", a: "No. The same published schedule applies everywhere we fund across the Tampa Bay metro and the four-county Tampa Bay service area. County recording fees and title insurance are separate closing costs, not part of our fee." },
+  { q: "Are there fees beyond the schedule?", a: "The schedule covers the funding itself, including the additional-day, second-closing-company and special-paperwork lines. Closing costs charged by the title company or closing office are separate from our fee and vary by file." }
+];
+
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Transactional Funding Fees",
+    "url": `https://${domain}/transactional-funding-fees/`,
+    "description": pageDescription,
+    "isPartOf": { "@type": "WebSite", "name": brand, "url": `https://${domain}/` }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": r(f.q), "acceptedAnswer": { "@type": "Answer", "text": r(f.a) } }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `https://${domain}/` },
+      { "@type": "ListItem", "position": 2, "name": "Transactional Funding Fees", "item": `https://${domain}/transactional-funding-fees/` }
+    ]
+  }
+];
+---
+<Base title="Transactional Funding Fees: Schedule and Examples | Tampa Wholesale Double Close" description={pageDescription} path="/transactional-funding-fees/" jsonld={jsonld}>
+  <Header base="/" />
+  <main id="main">
+    <section class="guide-hero"><div class="container"><h1 class="guide-hero__title">Transactional Funding Fees</h1></div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <p>Our fees are flat and published so you can underwrite the funding cost into your offer before you tie up a property. The schedule below is the same one shown on every page of this site, and it does not change by city, county or jurisdiction.</p>
+    </div></section>
+
+    <section class="section section--tint"><div class="container">
+      <h2 class="section__title">The full schedule</h2>
+      <div class="fee-table-wrap"><table class="fee-table">
+        <caption class="sr-only">Double-close funding fee schedule</caption>
+        <thead><tr><th scope="col">Funding Amount</th><th scope="col">Fee or Detail</th></tr></thead>
+        <tbody>{fees.map(f=><tr><th scope="row">{f.label}</th><td>{f.detail}</td></tr>)}</tbody>
+      </table></div>
+    </div></section>
+
+    <section class="section"><div class="container">
+      <h2 class="section__title">The math on real numbers</h2>
+      <p class="section__intro">These are illustrative examples using the schedule above, not quotes for any specific deal.</p>
+      <div class="fee-table-wrap"><table class="fee-table">
+        <caption class="sr-only">Worked fee examples</caption>
+        <thead><tr><th scope="col">Example</th><th scope="col">Fee Calculation</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">$300,000 purchase</th><td>{`${t.tier1Rate} tier: ${feeAmount(300000, t.tier1Rate)}`}</td></tr>
+          <tr><th scope="row">$80,000 purchase</th><td>{`${t.tier1Rate} would be ${feeAmount(80000, t.tier1Rate)}, so the ${t.tier1Minimum} minimum applies: ${t.tier1Minimum}`}</td></tr>
+          <tr><th scope="row">$750,000 purchase</th><td>{`${t.tier2Rate} tier: ${feeAmount(750000, t.tier2Rate)}`}</td></tr>
+          <tr><th scope="row">$1,200,000 purchase</th><td>{`${t.tier3Rate} tier: ${feeAmount(1200000, t.tier3Rate)}`}</td></tr>
+          <tr><th scope="row">Extra day on $400,000</th><td>{`${t.extraDayRate} per day: ${feeAmount(400000, t.extraDayRate)} for each additional day the funds are out`}</td></tr>
+          <tr><th scope="row">Two closing companies on $500,000</th><td>{`${t.twoClosingCompaniesRate}: ${feeAmount(500000, t.twoClosingCompaniesRate)}`}</td></tr>
+        </tbody>
+      </table></div>
+    </div></section>
+
+    <section class="section section--tint"><div class="container guide-prose">
+      <h2 class="section__title">What changes the fee</h2>
+      <p>Four things move the number. The funding amount sets the tier. Extra days beyond the same-day hold add {t.extraDayRate} per day. Using two title or closing companies instead of one moves the fee to {t.twoClosingCompaniesRate}. And additional paperwork or special terms can carry a {t.specialTermsRate} fee or a per-document fee at our team's discretion.</p>
+      <p>Funding over {t.tier2Cap} also gets a longer due diligence window, so larger files benefit from an earlier submission. Morby Method structures follow the schedule with fees paid upfront by Zelle or wire.</p>
+    </div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <h2 class="section__title">How to underwrite the fee into your offer</h2>
+      <p>Work backward from your resale. Take the expected resale price, subtract the purchase price, then subtract the funding fee from the schedule and an allowance for closing costs on both transactions. What remains is your margin, and it needs to be worth the work before you sign the purchase contract.</p>
+      <p>On a $300,000 purchase resold at $360,000, for example, the {t.tier1Rate} fee is {feeAmount(300000, t.tier1Rate)}. Whether the remaining spread works depends on the closing costs on your file, which the closing office can estimate before you commit. The process the fee pays for is laid out in <a href="/how-double-closing-works-in-florida/">how double closing works in Florida</a>.</p>
+    </div></section>
+
+    <section class="section section--tint" id="faq"><div class="container faq__inner"><h2 class="section__title">Common questions about fees</h2><FaqAccordion items={faqs.map((f) => ({ q: r(f.q), a: r(f.a) }))} /></div></section>
+
+    <section class="final-cta"><div class="final-cta__graphic" aria-hidden="true"></div><div class="container final-cta__inner"><h2 class="final-cta__title">Run your deal against the schedule</h2><p class="final-cta__text">Submit the deal and we will review the numbers. Funding availability and timing depend on the reviewed file and closing arrangements.</p><a class="btn btn--accent btn--lg" href="/#deal-form">Submit Your Deal <span aria-hidden="true">→</span></a></div></section>
+  </main>
+  <Footer />
+</Base>
