@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import DealForm from '../components/DealForm.astro';
+import { brand } from '../data/cities';
+---
+<Base title={`Privacy Policy | ${brand}`} description="Privacy policy for Tampa Wholesale Double Close: what we collect, how we use it, and the choices you have." path="/privacy/">
+  <Header base="/" />
+  <main id="main"><section class="legal-hero"><div class="container legal-hero__inner"><div><h1 class="legal-hero__title">Privacy Policy</h1><p class="legal-hero__intro">How we handle information sent through this website.</p></div><DealForm formName="Tampa-Wholesale-Double-Close-Form" cityName="Tampa Metro" /></div></section><div class="legal">
+    <div class="container">
+      <p>This policy explains what information {brand} collects through this website, how we use it, and the choices you have about it.</p>
+
+      <h2>Information you give us</h2>
+      <p>When you submit the deal form on this site, we collect the details you enter: your name, phone number, email address, and the deal information you choose to share, such as a property address, contract price, and closing office. We use this information only to review and respond to your funding request.</p>
+
+      <h2>Information collected automatically</h2>
+      <p>This site uses a form-tracking script to route submitted information to our customer relationship tools. That script may also process technical information such as browser, device and page details. We use these tools to operate the site and respond to funding requests.</p>
+
+      <h2>How we use information</h2>
+      <ul>
+        <li>To review your deal and contact you about your funding request.</li>
+        <li>To follow up on questions you send us.</li>
+        <li>To operate the form and customer relationship tools.</li>
+      </ul>
+      <p>We do not sell your personal information. We do not share it with third parties for their own marketing.</p>
+
+      <h2>How we share information</h2>
+      <p>Information may be processed by the service providers that run this website, our form routing and customer relationship tools, solely so we can operate the site and respond to you. We may also disclose information if required by law or to protect our rights.</p>
+
+      <h2>Cookies</h2>
+      <p>The form-tracking tools on this site may set cookies or use similar technologies. You can control cookies through your browser settings. Blocking cookies may affect how some parts of the site work.</p>
+
+      <h2>Your choices</h2>
+      <p>You can ask us to update or delete the information you submitted through the form by contacting us through the same form on this site. You can control cookies and similar technologies through your browser settings.</p>
+
+      <h2>Data retention</h2>
+      <p>We keep submitted information as long as needed to respond to your request and to maintain our business records, after which it is deleted or anonymized.</p>
+
+      <h2>Children</h2>
+      <p>This website is intended for adults involved in real estate transactions and is not directed at children. We do not knowingly collect information from children.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>We may update this policy from time to time. The current version is always posted on this page.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy can be sent through the deal form on this website.</p>
+    </div>
+  </div></main>
+  <Footer />
+</Base>
