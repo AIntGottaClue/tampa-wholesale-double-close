@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import { brand, domain } from '../data/cities';
+
+const faqs = [
+  { q: "Can any contract be assigned?", a: "No. Many contracts restrict or prohibit assignment, and some deal types like certain REO or estate sales are commonly non-assignable. Have the closing office or your agent check the assignment language in your specific contract before you count on either structure." },
+  { q: "Is a double closing more expensive than an assignment?", a: "A double closing adds the transactional funding fee, which follows the published schedule, and each transaction can carry its own closing costs, like title insurance and the county recording fees on each transaction. An assignment avoids the funding fee. The tradeoff is that the assignment fee is visible to both sides, which can create friction on larger spreads." },
+  { q: "Which structure is faster?", a: "The timelines are similar when the paperwork is complete. An assignment can involve slightly less paperwork because there is one transaction, while a double closing coordinates two files through the same closing office. Funding for a double closing can be ready in as little as 24 hours once the deal details are in." },
+  { q: "Do I need an LLC for a double closing?", a: "Wholesalers close in both personal names and entities. If you buy through an LLC, the closing office will want the entity documents for the file. The choice of entity is a question for your own legal and tax advisors." },
+  { q: "Can I switch from an assignment to a double closing mid-deal?", a: "That depends on your contract and where the file stands. If the contract restricts assignment or a party objects to the visible fee, a double closing can sometimes still work if the timing allows. Raise it with the closing team as early as you can." }
+];
+
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Double Close vs Assignment",
+    "url": `https://${domain}/double-close-vs-assignment/`,
+    "description": "An honest comparison of double closing and assignment for Tampa Metro wholesalers: cost, privacy, contract restrictions and when each structure fits.",
+    "isPartOf": { "@type": "WebSite", "name": brand, "url": `https://${domain}/` }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `https://${domain}/` },
+      { "@type": "ListItem", "position": 2, "name": "Double Close vs Assignment", "item": `https://${domain}/double-close-vs-assignment/` }
+    ]
+  }
+];
+---
+<Base title="Double Close vs Assignment: Which Fits Your Deal | Tampa Wholesale Double Close" description="An honest comparison of double closing and assignment for Tampa Metro wholesalers: cost, privacy, contract restrictions and when each structure fits." path="/double-close-vs-assignment/" jsonld={jsonld}>
+  <Header base="/" />
+  <main id="main">
+    <section class="guide-hero"><div class="container"><h1 class="guide-hero__title">Double Close vs Assignment</h1></div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <p>Assignment and double closing are the two common ways to get paid on a wholesale deal without renovating the property yourself. Neither is always better. The right choice depends on your contract, your spread and the people at the table.</p>
+      <p>This page compares the two honestly, including the cases where an assignment is the cheaper and simpler answer.</p>
+    </div></section>
+
+    <section class="section section--tint"><div class="container guide-prose">
+      <h2 class="section__title">What an assignment is</h2>
+      <p>With an assignment, you sign a purchase contract with the seller and then assign your right to buy to your end buyer for a fee. There is one transaction: the end buyer closes directly with the seller, and your assignment fee appears on the paperwork both sides can see.</p>
+      <p>Because there is only one closing and no funding involved, an assignment is usually the cheapest way to complete a wholesale deal when the contract and the parties allow it.</p>
+    </div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <h2 class="section__title">What a double closing is</h2>
+      <p>With a double closing, you actually buy the property and then resell it in a second transaction, usually on the same day. Approved transactional funding can cover the purchase side under the reviewed terms. Your purchase price and resale price stay on separate closing statements, so your spread is not presented as a single assignment fee; required disclosures still apply.</p>
+      <p>The full sequence, including how Florida title companies coordinate the two files, is covered in <a href="/how-double-closing-works-in-florida/">how double closing works in Florida</a>.</p>
+    </div></section>
+
+    <section class="section section--tint"><div class="container">
+      <h2 class="section__title">Side by side</h2>
+      <div class="fee-table-wrap"><table class="fee-table">
+        <caption class="sr-only">Comparison of assignment and double closing</caption>
+        <thead><tr><th scope="col">Question</th><th scope="col">Assignment</th><th scope="col">Double Closing</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">How many transactions</th><td>One</td><td>Two, back to back</td></tr>
+          <tr><th scope="row">Where your profit shows</th><td>As an assignment fee both sides can see</td><td>As the difference between two separate closing statements</td></tr>
+          <tr><th scope="row">Funding cost</th><td>None</td><td>Transactional funding fee per the published schedule</td></tr>
+          <tr><th scope="row">Contract restrictions</th><td>Blocked when the contract prohibits assignment</td><td>Works on most contracts, including many non-assignable ones</td></tr>
+          <tr><th scope="row">Cash required</th><td>Depends on contract and closing costs</td><td>Depends on approved funding terms and closing costs</td></tr>
+          <tr><th scope="row">Best fit</th><td>Cooperative parties, modest spread, assignable contract</td><td>Larger spread, privacy concerns, or a contract that cannot be assigned</td></tr>
+        </tbody>
+      </table></div>
+    </div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <h2 class="section__title">When an assignment is usually enough</h2>
+      <p>If your contract allows assignment, your spread is modest, and the seller and end buyer are comfortable with the structure, an assignment is typically the cheaper and simpler path. You avoid the funding fee and one set of closing paperwork.</p>
+      <p>Many wholesalers default to assignment for exactly these reasons. There is no reason to pay for a double closing when the deal does not need one.</p>
+    </div></section>
+
+    <section class="section section--tint"><div class="container guide-prose">
+      <h2 class="section__title">When a double closing fits better</h2>
+      <p>A double closing tends to fit when the spread is large enough that a visible assignment fee could create friction with the seller or the end buyer. It also fits deals that cannot be assigned at all, like certain REO or estate sales, and situations where a closing office or a party simply prefers two separate transactions.</p>
+      <p>The cost of that flexibility is the transactional funding fee, which follows the published schedule on the <a href="/transactional-funding-fees/">transactional funding fees</a> page. Underwrite the fee into your offer so the deal still works after the cost.</p>
+    </div></section>
+
+    <section class="section" id="faq"><div class="container faq__inner"><h2 class="section__title">Common questions about the choice</h2><FaqAccordion items={faqs} /></div></section>
+
+    <section class="final-cta"><div class="final-cta__graphic" aria-hidden="true"></div><div class="container final-cta__inner"><h2 class="final-cta__title">Have a deal that needs a double closing?</h2><p class="final-cta__text">Submit the deal and we will review the numbers. Funding availability and timing depend on the reviewed file and closing arrangements.</p><a class="btn btn--accent btn--lg" href="/#deal-form">Submit Your Deal <span aria-hidden="true">→</span></a></div></section>
+  </main>
+  <Footer />
+</Base>
