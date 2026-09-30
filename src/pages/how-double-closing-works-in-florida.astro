@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import { brand, domain } from '../data/cities';
+
+const faqs = [
+  { q: "Is a double closing legal in Florida?", a: "A double closing uses a separate purchase and resale. Your closing office or legal adviser should confirm whether the contracts and proposed structure work for your file. Legal questions about your specific contract belong with the settlement professional on your file." },
+  { q: "Do both closings have to happen on the same day?", a: "They are typically scheduled back to back on the same day, and transactional funding is priced for that short hold. If the resale side moves to another day, the additional day fee in the published schedule applies for each extra day the funds are out." },
+  { q: "Who chooses the title company?", a: "Often the title company your end buyer already uses can run both transactions. What matters most is an office that handles investor double closings regularly and is comfortable coordinating the two files in sequence." },
+  { q: "What does the funding fee cover?", a: "The fee covers the use of the funds for your purchase side, and it follows the published schedule based on the funding amount. The full schedule and worked examples are on the transactional funding fees page." },
+  { q: "Can I assign the contract instead of double closing?", a: "Sometimes. Assignment works when the contract allows it and everyone is comfortable seeing the fee. The double close vs assignment comparison walks through when each structure tends to fit." }
+];
+
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "How Double Closing Works in Florida",
+    "url": `https://${domain}/how-double-closing-works-in-florida/`,
+    "description": "The A-B and B-C sequence of a double closing in Florida, the paperwork each side needs, and where transactional funding fits.",
+    "isPartOf": { "@type": "WebSite", "name": brand, "url": `https://${domain}/` }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `https://${domain}/` },
+      { "@type": "ListItem", "position": 2, "name": "How Double Closing Works in Florida", "item": `https://${domain}/how-double-closing-works-in-florida/` }
+    ]
+  }
+];
+---
+<Base title="How Double Closing Works in Florida | Tampa Wholesale Double Close" description="The A-B and B-C sequence of a double closing in Florida, the paperwork each side needs, and where transactional funding fits." path="/how-double-closing-works-in-florida/" jsonld={jsonld}>
+  <Header base="/" />
+  <main id="main">
+    <section class="guide-hero"><div class="container"><h1 class="guide-hero__title">How Double Closing Works in Florida</h1></div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <p>A double closing is two separate real estate transactions on the same property, usually on the same day. In the first transaction you buy the property from the seller. In the second you resell it to your end buyer, and the proceeds from that resale repay the funding on your purchase.</p>
+      <p>Because you take title in between, your purchase price and your resale price stay on separate closing statements. Your wholesale spread is the difference between the two transactions, not a fee line on a single assignment contract.</p>
+    </div></section>
+
+    <section class="section section--tint"><div class="container guide-prose">
+      <h2 class="section__title">The A-B and B-C transactions</h2>
+      <p>The first transaction is called A-B: the seller (A) sells to you (B) under your purchase contract. The second is B-C: you (B) sell to your end buyer (C) under a separate contract. Each transaction gets its own settlement statement, its own signatures and its own disbursement.</p>
+      <p>The two files are coordinated so the B-C resale funds immediately after the A-B purchase. The sequence depends on approved funding, buyer funds and the closing office's instructions; it is not established merely by submitting a request.</p>
+    </div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <h2 class="section__title">How closings run in Florida</h2>
+      <p>Your closing office coordinates the contracts, title review, signatures and funds for both sides. Ask which documents and disbursement sequence it requires for the actual transaction.</p>
+      <p>Florida documentary stamp tax applies to certain documents, including deeds. The exact tax treatment depends on the document and transaction; the closing office can calculate applicable taxes and recording charges for each transfer. Those amounts are separate from our funding fee.</p>
+    </div></section>
+
+    <section class="section section--tint"><div class="container guide-prose">
+      <h2 class="section__title">The paperwork a file usually needs</h2>
+      <p>The title company prepares and confirms exactly what your file requires. Across most Florida double closings, the paperwork includes:</p>
+      <ul class="guide-list">
+        <li>A signed purchase and sale agreement for each side of the deal</li>
+        <li>Title work on the property, ordered by the title company</li>
+        <li>A settlement statement for each transaction showing its own price and costs</li>
+        <li>Wire instructions and any payoff figures tied to the property</li>
+        <li>Entity documents if you are buying through an LLC</li>
+        <li>Association, estate or probate documents when the property calls for them</li>
+      </ul>
+      <p>Files with complete paperwork move fastest. Sending everything you have when you submit the deal keeps questions from surfacing at the closing table.</p>
+    </div></section>
+
+    <section class="section"><div class="container guide-prose">
+      <h2 class="section__title">Where transactional funding fits</h2>
+      <p>Approved transactional funding can cover the A-B purchase under the reviewed terms. The closing office coordinates disbursement and the resale; repayment and fees follow the agreed documents rather than a submitted request. The fee follows the published schedule on the <a href="/transactional-funding-fees/">transactional funding fees</a> page.</p>
+      <p>Funding availability and timing depend on the reviewed file and closing arrangements. If you are still deciding between structures, the <a href="/double-close-vs-assignment/">double close vs assignment</a> guide compares the two honestly.</p>
+    </div></section>
+
+    <section class="section section--tint" id="faq"><div class="container faq__inner"><h2 class="section__title">Common questions about the process</h2><FaqAccordion items={faqs} /></div></section>
+
+    <section class="final-cta"><div class="final-cta__graphic" aria-hidden="true"></div><div class="container final-cta__inner"><h2 class="final-cta__title">Have a deal ready for funding?</h2><p class="final-cta__text">Submit the deal and we will review the numbers. Funding availability and timing depend on the reviewed file and closing arrangements.</p><a class="btn btn--accent btn--lg" href="/#deal-form">Submit Your Deal <span aria-hidden="true">→</span></a></div></section>
+  </main>
+  <Footer />
+</Base>
