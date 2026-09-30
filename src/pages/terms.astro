@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import DealForm from '../components/DealForm.astro';
+import { brand } from '../data/cities';
+---
+<Base title={`Terms of Service | ${brand}`} description="Terms of service for the Tampa Wholesale Double Close website." path="/terms/">
+  <Header base="/" />
+  <main id="main"><section class="legal-hero"><div class="container legal-hero__inner"><div><h1 class="legal-hero__title">Terms of Service</h1><p class="legal-hero__intro">Information about using this website and submitting a funding request.</p></div><DealForm formName="Tampa-Wholesale-Double-Close-Form" cityName="Tampa Metro" /></div></section><div class="legal">
+    <div class="container">
+      <p>These terms govern your use of the {brand} website. By using this site, you accept these terms.</p>
+
+      <h2>What this website is</h2>
+      <p>This website provides general information about transactional funding services for real estate wholesalers and a way to submit a funding request. Content on this site is general information only. It is not legal, tax, financial, or investment advice, and it is not an offer or commitment to fund any transaction.</p>
+
+      <h2>No commitment to fund</h2>
+      <p>Submitting the form on this site is a request for review, not an application that guarantees funding. Any funding is subject to review of the specific transaction, completion of due diligence, and execution of the documents required for that transaction. Timing statements on this site, including statements that funding can be ready in as little as 24 hours, describe what may be possible for qualifying transactions and are not guarantees.</p>
+
+      <h2>Fee information</h2>
+      <p>The fee schedule published on this site reflects our standard pricing. Fees for a specific transaction are confirmed during review, and transactions involving additional days, multiple title or closing companies, additional paperwork, or special terms may carry the additional fees described in the schedule.</p>
+
+      <h2>Your responsibilities</h2>
+      <ul>
+        <li>You agree that the information you submit is accurate to the best of your knowledge.</li>
+        <li>You agree not to misuse this website, including by submitting false information, attempting to disrupt the site, or scraping it in violation of applicable law.</li>
+        <li>You are responsible for your own legal, tax, and closing decisions. Florida closings follow their own customs and contract forms, and you should direct legal questions to the title company or attorney handling your transaction.</li>
+      </ul>
+
+      <h2>Intellectual property</h2>
+      <p>The content, design, and branding of this website belong to us. You may not copy or republish them for commercial use without permission.</p>
+
+      <h2>Third party tools</h2>
+      <p>This site uses analytics and tracking tools provided by third parties to operate and understand usage of the site. Their handling of data is governed by their own policies.</p>
+
+      <h2>Limitation of liability</h2>
+      <p>To the fullest extent permitted by law, we are not liable for indirect, incidental, or consequential damages arising from your use of this website or reliance on its content. The site is provided as is and as available.</p>
+
+      <h2>Changes to these terms</h2>
+      <p>We may update these terms from time to time. The current version is always posted on this page, and continued use of the site after an update means you accept the updated terms.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about these terms can be sent through the deal form on this website.</p>
+    </div>
+  </div></main>
+  <Footer />
+</Base>
