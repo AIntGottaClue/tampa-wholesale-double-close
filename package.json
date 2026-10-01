@@ -5,11 +5,16 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy": "wrangler deploy --config dist/server/wrangler.json"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.13",
-    "@astrojs/sitemap": "^3.7.4",
-    "astro": "^5.13.0"
+    "@astrojs/cloudflare": "14.3.3",
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.3.5",
+    "wrangler": "4.145.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
